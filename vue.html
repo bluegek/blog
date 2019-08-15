@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>vue试用</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+  <style>
+    .mvvm,
+    .event,
+    .show-if,
+    .bind {
+      padding: 10px;
+      border-radius: 4.5px;
+      box-shadow: 3px 3px 3px #eee;
+      margin: 10px;
+      border: 1px solid #eee;
+    }
+
+    .mouseover {
+      margin: 10px;
+      width: 100px;
+      height: 100px;
+      background: palevioletred;
+      padding: 10px
+    }
+
+    .vBindTitle {
+      background: palegreen;
+      padding: 3px;
+    }
+
+    .show {
+      background: purple
+    }
+
+    .forloop {
+      background: powderblue;
+      padding: 3px;
+      margin: 10px;
+      display: inline-block;
+    }
+
+    .img {
+      width: 80%;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <div class="mvvm">
+      <h2>0. 概述</h2>
+      <ul>
+        <li>
+          <h3>数据驱动思想是vue的基本思想 （model驱动view）</h3>
+        </li>
+        <li>
+          <h3>双向绑定是vue基本功能MVVM</h3>
+        </li>
+        <li>
+          <h3>vue与传统前端框架（jQuery）不同</h3>
+          <ul>
+            <li>
+              jQuery：
+              <p> 优点：直接操作对于逻辑简单的页面开发快速;</p>
+              <p>缺点：开发大型项目，DOM逻辑和业务逻辑耦合度极高，维护困难。</p>
+            </li>
+            <li>
+              Vue：
+              <p>Vue的思想是把DOM操作屏蔽掉，在做页面的时候，只用关心页面逻辑即可。</p>
+              <p>通过操作数据来控制页面（model-view-view-model/MVVM模式）</p>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <h3>mvc VS mvvm</h3>
+          <ul>
+            <li>MVC：通过controller向view中注册model数据, 数据来源是后端controller，view作为后端的一部分</li>
+            <li>MVVM：mvvm指的就是双向绑定，没有controller控制页面，页面完全由js控制， 实现前端页面与后端业务的解耦</li>
+          </ul>
+        </li>
+      </ul>
+
+
+    </div>
+    <div class="mvvm">
+      <h2>1. MVVM概念</h2>
+      <h5>1.1 data相当于model，其中的值会映射到页面上model-view</h5>
+      <p>{{ tempStr }}</p>
+      <h5>1.2 我们在页面上修改input的值,会通过tempStr反映到model中去,view-model</h5>
+      <input v-model="tempStr">
+    </div>
+
+    <div class="event">
+      <h2>2. 事件系统v-on</h2>
+      <h5>2.1 事件通过v-on:click（事件类型）指令进行监听， 事件类型click，mouseover等</h5>
+      <button v-on:click="handleUpdateTempStr">我是按钮：修改tempStr的值</button>
+      <div class="mouseover" v-on:mouseover="handleMouseover">鼠标移动我身上{{mouseTime}}次</div>
+    </div>
+
+    <div class="bind">
+      <h2>3. 属性绑定v-bind</h2>
+      <h5>3.1 v-bind指令用来动态的绑定DOM元素的属性值</h5>
+      <div class="vBindTitle" v-bind:title="vBindTitle">鼠标悬停至此查看动态绑定的值</div>
+    </div>
+
+    <div class="show-if">
+      <h2>4. 动态显隐v-if</h2>
+      <h5>4.1 v-if指令用来动态的控制DOM元素的显示和隐藏</h5>
+      <label>{{showIf}}</label>
+      <div class="show" v-if="showIf">我是将要显示或者隐藏的模块</div>
+      <button v-on:click="showIf = !showIf">我来控制显示隐藏</button>
+    </div>
+
+    <div class="show-if">
+      <h2>5. 列表渲染v-for</h2>
+      <h5>5.1 v-for指令用来动态渲染列表数据</h5>
+      <p>item是渲染出来的每一项数据，index是索引值</p>
+      <div class="forloop" v-for="(item, index) in items">{{item}}-{{index}}</div>
+    </div>
+
+    <div class="show-if">
+      <h2>6. 数据监听与计算属性</h2>
+
+      <h5>6.1 数据监听:来响应数据的变化，当需要在数据变化时执行异步或开销较大的操作时，这个方式是最有用的</h5>
+      <input type="text" v-model="watchData">
+      watch中操作数据：{{watchResult}}
+
+      <h5>6.2 计算属性：根据他依赖的data属性是否发生变化，来计算新的值 </h5>
+      <input type="text" v-model="computedData">
+      <p>该数据依赖 watchData 和 computedData：<span class="forloop">{{computedResult}}</span></p>
+
+    </div>
+
+    <div class="show-if">
+      <h2>7. 生命周期</h2>
+      <img src="https://cn.vuejs.org/images/lifecycle.png" alt="" class="img">
+      <p>每一个vue的实例化对象都会包含自己的生命周期，生命周期的每个阶段都是实例化对象运行到哪个阶段，在每一个阶段都会抛出来一个钩子函数，我们在合适的阶段调用合适的钩子函数完成相应的逻辑</p>
+      <h5>7.1 created: vue实例已经创建，data属性已经初始化完毕。在此钩子函数中，可以获取ajax数据，然后把data属性中的数据改掉</h5>
+      <h5>7.2 mounted: vue实例已经挂载到DOM上面，意味着vue已经跟DOM结合在一起，已经处于双向绑定阶段。所以在次钩子中能通过vue的语法来获取DOM节点，比如跟第三方库结合时候需要获取DOM节点进行注册
+      </h5>
+      <h5>7.3 updated: data属性中的值，发生改变，页面会重新加载，重新加载完成会调用updated</h5>
+      <h5>7.4 destroyed: 页面跳转，当前页面销毁，vue实例销毁释放内存，用法：例如mounted中建立一个定时器，则需要在此钩子中把定时器销毁，否则很容易出现内存泄漏</h5>
+
+    </div>
+
+  </div>
+  <script>
+    var app = new Vue({
+      el: '#app',
+      data: { // model
+        tempStr: 'Hello Vue!',
+        title: new Date(),
+        showIf: true,
+        mouseTime: 0,
+        vBindTitle: '页面加载于 ' + new Date().toLocaleString(),
+        items: ['张三', '李四', '麻子', '九筒', ],
+        watchResult: '',
+        watchData: '',
+        computedData: 'computedData'
+      },
+      computed: {
+        computedResult() {
+          return `${this.watchData} + ${this.computedData}`
+        }
+      },
+      watch: {
+        watchData(newVal) {
+          console.log('监测到watchData发生变化', newVal)
+          this.ajaxData(newVal)
+        }
+      },
+      created() {}, // vue实例的data属性已经初始化完成
+      mounted() { // vue实例已经挂载到DOM节点
+      },
+      updated() {},
+      beforeDestroyed() {}, // 组件实例销毁,vue实例内存释放
+      methods: {
+        handleUpdateTempStr() {
+          this.tempStr = 'model-view的再次反映' //只要在改实例对象中修改tempStr的值,都会映射到页面上
+        },
+        handleMouseover() {
+          this.mouseTime = this.mouseTime + 1
+        },
+        ajaxData() {
+          console.log('我要去获取数据了。。。')
+          setTimeout(() => {
+            this.watchResult = '我是watch之后的数据, 我永远是你输入的double=' + this.watchData * 2
+          }, 1000)
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>
